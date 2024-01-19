@@ -30,7 +30,7 @@ export const createBlog = async (req, res) => {
 // => GET ALL BLOGS
 export const getBlogs = async (req, res) => {
     try {
-        const blogs = await blogModel.find();
+        const blogs = await blogModel.find().sort({ createdAt: -1});
         res.status(200).send({
             success: true,
             message: "All Blogs",
