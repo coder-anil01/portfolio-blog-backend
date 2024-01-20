@@ -49,6 +49,7 @@ export const deleteBlog = async (req, res) => {
     try {
         const {pass} = req.body;
         const {id} = req.params;
+        console.log(pass)
         if( password == pass ){
             const blog = await blogModel.findByIdAndDelete(id);
             res.status(200).send({

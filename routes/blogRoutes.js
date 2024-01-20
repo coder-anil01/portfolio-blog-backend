@@ -7,6 +7,6 @@ route.post('/create', createBlog);
 
 route.get('/get', getBlogs);
 
-route.delete('/delete/:id', deleteBlog);
+route.post('/delete/:id', deleteBlog);
 
 export default route;
