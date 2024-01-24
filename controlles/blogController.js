@@ -1,22 +1,33 @@
 import blogModel from "../model/blogModel.js";
+import { v2 as cloudinary } from 'cloudinary';
+import dotenv from 'dotenv';
 
-const password = "coder8987ani";
+dotenv.config();
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDNEARY_NAME,
+    api_key: process.env.CLOUDNEARY_API_KEY,
+    api_secret: process.env.CLOUDNEARY_API_SECRET,
+  });
+
+const password = process.env.PASSWORD;
 
 // => CREATE BLOG
 export const createBlog = async (req, res) => {
     try {
-        const { title, description, image, video_url, pass } = req.body;
+        const { title, description, video_url, pass } = req.body;
+        const image = req?.body?.description;
         if(password == pass){
-            const blog = await new blogModel({title, description, image, video_url}).save();
+            const hostImage = await cloudinary.uploader.upload(image, { folder: "dealhub" })
+        if(hostImage){
+            console.log(hostImage)
+            const blog = await new blogModel({title, description, image: hostImage?.url, video_url}).save();
             res.status(200).send({
                 success: true,
                 message: "Blog Created Successfully",
                 blog,
             })
-        }else{ res.status(401).send({
-                success: false,
-                message: "Unauthorized Access"
-            })
+        }
         }
     } catch (error) {
         console.log(error),
